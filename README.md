@@ -1,9 +1,9 @@
 # Colorblind Map Markers — RV There Yet?
 
 Recolors the handheld map's route line and checkpoint markers from red to a
-deep blue, so they stay visible for players with red–green color blindness.
+dark navy, so they stay visible for players with red–green color blindness.
 
-![before and after, with a protanopia simulation](docs/preview.png)
+![the map in game with the mod active: navy route line, navy checkpoint markers and labels](docs/in-game.png)
 
 ## The problem
 
@@ -40,6 +40,11 @@ readable over the largest share of it:
 Cyan loses because it's nearly as bright as the paper; bright blue loses because
 it's too light for the olive and forest tones that cover much of the map. Navy
 is dark enough to win on luminance while still reading as unmistakably blue.
+
+The same checkpoint marker in each candidate color, on map tones sampled from
+the game's own textures — the lower half is what a protanope sees:
+
+![marker colors on sampled map tones, in normal vision and simulated protanopia](docs/preview.png)
 
 No single flat color can be optimal everywhere on a map this varied — the
 remaining ~24% is mostly the darkest forest, where a dark marker necessarily
