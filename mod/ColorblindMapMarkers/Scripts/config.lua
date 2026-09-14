@@ -88,12 +88,13 @@ config.recolor_player_marker = true
 -- exists to fix.
 config.recolor_labels = true
 
--- Write a detailed report of what was found and changed to UE4SS.log.
--- Useful when something isn't being recolored; harmless to leave on.
-config.verbose = true
+-- Log every widget the mod visits, and why it did or didn't recolor it.
+-- This runs on every refresh, so it writes to UE4SS.log continuously -- turn it
+-- on only while working out why something isn't being recolored.
+config.verbose = false
 
 -- Extra per-widget state dump (alpha, render opacity, visibility) on every
--- refresh. Only turn this on when diagnosing a specific marker -- it is noisy.
+-- refresh. Noisier still; for diagnosing one specific misbehaving marker.
 config.diagnose = false
 
 return config

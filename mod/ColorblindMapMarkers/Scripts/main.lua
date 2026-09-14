@@ -425,12 +425,41 @@ local HOOK_TARGETS = {
     "/Game/Ride/Interactables/Misc/Map/WG_Map_Checkpoint.WG_Map_Checkpoint_C:SetOldCheckpoint",
 }
 
+-- Hooks can fire every frame while the map is open, so a full FindAllOf sweep
+-- per call is far more work than needed. Recolor just the object the hook fired
+-- on when we can identify it, and rate-limit the fallback sweep.
+local last_sweep = -1
+
+local function sweep_throttled()
+    local now = os.clock()
+    if now - last_sweep < 0.05 then return end
+    last_sweep = now
+    pcall(apply)
+end
+
+local function on_hook(context)
+    local ok, obj = pcall(function() return context:get() end)
+    if not ok or not valid(obj) then
+        sweep_throttled()
+        return
+    end
+
+    local role = WIDGET_CLASSES[class_name(obj)]
+    if role then
+        if role ~= "player" or config.recolor_player_marker then
+            pcall(recolor_user_widget, obj, palette[role])
+        end
+    else
+        sweep_throttled()
+    end
+end
+
 local hooked = 0
 for _, target in ipairs(HOOK_TARGETS) do
     -- Blueprint function names can move between game patches; a missing one
     -- must not take the whole mod down, so each hook is optional.
-    local ok = pcall(RegisterHook, target, function() end, function()
-        pcall(apply)
+    local ok = pcall(RegisterHook, target, function() end, function(context)
+        pcall(on_hook, context)
     end)
     if ok then
         hooked = hooked + 1

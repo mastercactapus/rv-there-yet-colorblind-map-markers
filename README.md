@@ -153,6 +153,13 @@ won't conflict with mods that aren't fighting over the same values.
 It re-applies on a 1 s timer, since the game rebuilds the spline line and
 respawns marker widgets as you drive and as checkpoints change.
 
+## Known issue (not caused by this mod)
+
+One checkpoint marker sometimes fades in and then doesn't stay on the map. This
+happens in the **unmodded** game too — verified by A/B testing with the mod
+disabled — so it's a quirk of how the game draws that marker, not something the
+recoloring introduces. Reopening the map usually brings it back.
+
 ## Uninstall
 
 Delete `ue4ss/Mods/ColorblindMapMarkers/`. To remove UE4SS as well, delete

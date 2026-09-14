@@ -12,6 +12,18 @@ OUT="$REPO/dist"
 STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 
+CONFIG="$REPO/mod/ColorblindMapMarkers/Scripts/config.lua"
+
+# Debug logging writes to UE4SS.log on every refresh. Shipping it enabled would
+# spam every user's log forever, so refuse to build rather than rely on
+# remembering to switch it off.
+for flag in verbose diagnose; do
+  if grep -qE "^config\.$flag[[:space:]]*=[[:space:]]*true" "$CONFIG"; then
+    echo "refusing to package: config.$flag is enabled in $CONFIG" >&2
+    exit 1
+  fi
+done
+
 mkdir -p "$OUT" "$STAGE/ue4ss/Mods"
 cp -r "$REPO/mod/ColorblindMapMarkers" "$STAGE/ue4ss/Mods/"
 cp "$REPO/README.md" "$STAGE/ue4ss/Mods/ColorblindMapMarkers/README.md"
