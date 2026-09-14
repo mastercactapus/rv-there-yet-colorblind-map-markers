@@ -1,0 +1,19 @@
+# direnv / nix
+.direnv/
+
+# rust
+.cargo-home/
+target/
+
+# extracted game data -- never commit copyrighted game assets
+extracted/
+work/
+*.uasset
+*.uexp
+*.ubulk
+*.pak
+*.utoc
+*.ucas
+
+# build output
+dist/
